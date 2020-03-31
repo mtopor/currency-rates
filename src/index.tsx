@@ -31,6 +31,7 @@ const wrapWithHtmlTemplate = (content: string, state: Object): string => {
 <div id="root">
 ${content}
 </div>
+<script src="../dist/main.js"></script>
 </body>
 </html>
 `;
