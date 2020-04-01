@@ -15,19 +15,10 @@ const wrapWithHtmlTemplate = (content: string, state: Object): string => {
     return `
 <html>
 <head>
-<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!--<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>-->
+<!--<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>-->
 </head>
 <body>
-<script type="text/babel">
-
-      ReactDOM.hydrate(
-        <App />,
-        document.getElementById('root')
-      );
-
-    </script>
 <div id="root">
 ${content}
 </div>
