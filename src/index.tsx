@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOMServer from 'react-dom/server';
 
-import express from 'express';
-import fs from "fs";
-import path from "path";
+import express, {Request, Response} from 'express';
+import axios from "axios";
+import {parseCurrencyData} from "./helpers/rates";
 import App from "./components/hello";
 
 const PORT = 8000;
@@ -16,8 +16,6 @@ const wrapWithHtmlTemplate = (content: string, state: Object): string => {
     return `
 <html>
 <head>
-<!--<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>-->
-<!--<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>-->
 </head>
 <body>
 <div id="root">
@@ -32,36 +30,29 @@ ${content}
 
 app.use("/dist", express.static('./dist/'));
 
-app.use('^/$', (request: any, response: any) => {
+app.use('^/$', (request: Request, response: Response) => {
     const initialState = {
         text: 'World (IS)'
-    }
+    };
     return response.send(wrapWithHtmlTemplate(ReactDOMServer.renderToString(<App {...initialState} />), initialState));
-    // fs.readFile(path.resolve('./build/index.html'), 'utf-8', (err, data) => {
-    //     if (err) {
-    //         console.log(err);
-    //         return response.status(500).send('Internal Server Error');
-    //     }
-    //     const persistedState = {
-    //         tableData: {}
-    //     };
-    //
-    //     return response.send(
-    //         data.replace(
-    //             `<script>window.__STATE__ = {${JSON.stringify(persistedState)}}</script><div id="root"></div>`,
-    //             `<div id="root">{ReactDOMServer.renderToString(<App />)}</div>`
-    //         )
-    //     );
-    // });
 });
 
-// eslint-disable-next-line no-undef
-// app.use(express.static(path.resolve(__dirname, '..', 'build')));
+app.get('/data', async (request: Request, response: any) => {//add types express, pass date in request
+    //todo error state
+    console.log('request param date: ', request.query.date);
+    const date = request.query.date;
+    if (date == null || !date.length) {
+        throw "Invalid request. date param is missing";
+    }
+
+    const rates =  await axios.get(
+        `https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/daily.txt?date=${date}`
+    );
+
+    return response.send(parseCurrencyData(rates.data));
+});
+
 
 app.listen(PORT, () => {
     console.log('App is running on port' + PORT);
-    // console.log(ReactDOMServer.renderToString(<App />));
 });
-
-
-console.log('Hello world');

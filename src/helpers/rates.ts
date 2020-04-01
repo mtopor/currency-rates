@@ -1,30 +1,24 @@
-import { CurrencyData } from 'types/currencyRates';
+import {CurrencyData} from "../types/rates";
 
+//todo check date in header
+//todo check lines.length
 export const parseCurrencyData = (
-  rawData: string,
-  currencyCode: any
+    rawData: string
 ): CurrencyData[] => {
-  const lines: string[] = rawData.split('\n').slice(2);
-  const data: CurrencyData[] = [];
-  lines.map(line => {
-    const parsedLine = line.split('|');
-    if(currencyCode) {
-      console.log(currencyCode);
-      if(currencyCode === parsedLine[3]) {
+    console.log('Rates from date: ', rawData.split('\n')[0]);
+    const lines: string[] = rawData.split('\n').slice(2);
+    const data: CurrencyData[] = [];
+    lines.forEach(line => {
+        const parsedLine = line.split('|');
+        if (parsedLine.length != 5) {
+          return;
+        }
         data.push({
-          country: parsedLine[0],
-          code: parsedLine[3],
-          rate: parsedLine[4]
+            country: parsedLine[0],
+            code: parsedLine[3],
+            rate: parsedLine[4]
         });
-      }
-    } else {
-      data.push({
-        country: parsedLine[0],
-        code: parsedLine[3],
-        rate: parsedLine[4]
-      });
-    }
-  });
+    });
 
-  return data;
+    return data;
 };
