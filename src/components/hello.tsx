@@ -9,7 +9,7 @@ const App: React.FC<Props> = ({text}) => {
     return(
         <div>
             <span>
-                {`Hello ${text}`}
+                {`Hello from component ${text}`}
             </span>
         </div>
     );

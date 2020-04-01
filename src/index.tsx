@@ -37,6 +37,8 @@ ${content}
 `;
 };
 
+app.use("/dist", express.static('./dist/'));
+
 app.use('^/$', (request: any, response: any) => {
     const initialState = {
         text: 'World (IS)'

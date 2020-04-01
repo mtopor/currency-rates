@@ -1,3 +1,5 @@
+// const path = require('path');
+
 module.exports = {
     mode: "production",
 
@@ -38,5 +40,10 @@ module.exports = {
         "react-dom": "ReactDOM",
         "express": "express",
         "react-dom/server": "ReactDOMServer",
-    }
+    },
+
+    // output: {
+    //     filename: "main.js",
+    //     path: path.resolve(__dirname, './src/dist'),
+    // }
 };
