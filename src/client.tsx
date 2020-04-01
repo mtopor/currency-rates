@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/hello";
+import App from "./components/App";
 
 // @ts-ignore
 const initialState = window.__STATE__;
