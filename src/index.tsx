@@ -12,6 +12,7 @@ const app = express();
 
 
 const wrapWithHtmlTemplate = (content: string, state: Object): string => {
+    const stringifiedState = JSON.stringify(state);
     return `
 <html>
 <head>
@@ -22,6 +23,7 @@ const wrapWithHtmlTemplate = (content: string, state: Object): string => {
 <div id="root">
 ${content}
 </div>
+<script>window.__STATE__ = ${stringifiedState}</script>
 <script src="../dist/main.js"></script>
 </body>
 </html>
