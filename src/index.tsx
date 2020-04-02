@@ -7,9 +7,6 @@ import axios from "axios";
 import { parseCurrencyData } from "./helpers/rates";
 import App from "./components/App";
 
-import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-balham.css";
-
 const PORT = 8000;
 
 const app = express();
