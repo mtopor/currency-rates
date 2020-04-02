@@ -64,5 +64,8 @@
     "forceConsistentCasingInFileNames": true,
     /* Disallow inconsistently-cased references to the same file. */
     "jsx": "react"
-  }
+  },
+  "exclude": [
+    "./src/components"
+  ]
 }
