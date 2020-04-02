@@ -6,7 +6,7 @@ import { getCurrencyData, getTableData } from "./requests/currency-requests";
 import { AppProps } from "./types/rates";
 
 import { convertDate, parseCurrencyData } from "./helpers/rates";
-import App from "./components/App";
+import App from "./components/app";
 
 const PORT = 8000;
 

@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 
 import DatePicker from "react-datepicker";
 import { AgGridReact } from "ag-grid-react";
+import SelectComponent from "../components/select-component";
 import { convertDate } from "../helpers/rates";
 import { ALL_RATES_OPTION } from "../constants/rates-constants";
 
@@ -65,22 +66,15 @@ const App: React.FC<AppProps> = ({ tableData }) => {
         />
         <span>select currency code</span>
 
-        {/*todo move select to component*/}
-        <select
+        <SelectComponent
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             setSelectedRateCode(e.target.value);
           }}
-        >
-          <option value={ALL_RATES_OPTION} key={0}>
-            All rates
-          </option>
-          {ratesData.map((data: CurrencyData, index: number) => (
-            <option value={data.code} key={index + 1}>
-              {data.code}
-            </option>
-          ))}
-        </select>
+          options={ratesData.map((data: CurrencyData) => data.code)}
+          defaultOption={ALL_RATES_OPTION}
+        />
 
+        //todo remove inline styles
         <div
           className="ag-theme-balham"
           style={{
