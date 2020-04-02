@@ -2,9 +2,10 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 
 import express, { Request, Response } from "express";
-import axios from "axios";
+import { getCurrencyData, getTableData } from "./requests/currency-requests";
+import { AppProps } from "./types/rates";
 
-import { parseCurrencyData } from "./helpers/rates";
+import { convertDate, parseCurrencyData } from "./helpers/rates";
 import App from "./components/App";
 
 const PORT = 8000;
@@ -30,20 +31,23 @@ ${content}
 
 app.use("/dist", express.static("./dist/"));
 
-app.use("^/$", (request: Request, response: Response) => {
-  const initialState = {
-    text: "World (IS)",
+app.use("^/$", async (request: Request, response: Response) => {
+  const initialState: AppProps = {
+    tableData: [],
   };
-  return response.send(
-    wrapWithHtmlTemplate(
-      ReactDOMServer.renderToString(<App {...initialState} />),
-      initialState
-    )
-  );
+
+  getTableData(convertDate(new Date())).then((resp) => {
+    initialState.tableData = resp.data;
+    return response.send(
+      wrapWithHtmlTemplate(
+        ReactDOMServer.renderToString(<App {...initialState} />),
+        initialState
+      )
+    );
+  });
 });
 
-app.get("/data", async (request: Request, response: any) => {
-  //add types express, pass date in request
+app.get("/data", async (request: Request, response: Response) => {
   //todo error state
   console.log("request param date: ", request.query.date);
   const date = request.query.date;
@@ -51,11 +55,9 @@ app.get("/data", async (request: Request, response: any) => {
     throw "Invalid request. date param is missing";
   }
 
-  const rates = await axios.get(
-    `https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/daily.txt?date=${date}`
-  );
-
-  return response.send(parseCurrencyData(rates.data));
+  getCurrencyData(date).then((resp) => {
+    return response.send(parseCurrencyData(resp.data));
+  });
 });
 
 app.listen(PORT, () => {

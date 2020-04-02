@@ -3,3 +3,7 @@ export interface CurrencyData {
   code: string;
   rate: string;
 }
+
+export interface AppProps {
+  tableData: CurrencyData[];
+}
