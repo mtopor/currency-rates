@@ -1,10 +1,12 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useReducer } from "react";
 
 import DatePicker from "react-datepicker";
 import { AgGridReact } from "ag-grid-react";
+import {setCurrencyCode, setSelectedDate} from "../actions/rates";
 import SelectComponent from "../components/select-component";
 import { convertDate } from "../helpers/rates";
 import { ALL_RATES_OPTION } from "../constants/rates-constants";
+import reducer from "../reducers/rates-reducer";
 
 import { AppProps, CurrencyData } from "../types/rates";
 import { getTableData } from "../requests/currency-requests";
@@ -30,26 +32,17 @@ const columnDefs = [
 ];
 
 const App: React.FC<AppProps> = ({ tableData }) => {
-  const [pickedDate, setPickedDate] = useState(new Date());
-  const [selectedRateCode, setSelectedRateCode] = useState(ALL_RATES_OPTION);
-  const [ratesData, setRatesData] = useState<CurrencyData[]>([]);
-
-  useEffect(() => {
-    setRatesData(tableData);
-  }, []);
-
-  const getGridData = () => {
-    if (selectedRateCode === ALL_RATES_OPTION) {
-      return ratesData;
-    } else {
-      return ratesData.filter((row) => row.code === selectedRateCode);
-    }
-  };
+  const [state, dispatch] = useReducer(reducer, {
+    tableData: tableData,
+    gridData: tableData,
+    selectedCurrencyCode: ALL_RATES_OPTION,
+    isLoading: false,
+    selectedDate: new Date(),
+  });
 
   const handleDatePicked = (date: Date) => {
     getTableData(convertDate(date)).then((response) => {
-      setRatesData(response.data);
-      setPickedDate(date);
+      dispatch(setSelectedDate(date, response.data));
     });
   };
 
@@ -60,21 +53,21 @@ const App: React.FC<AppProps> = ({ tableData }) => {
         <span>select date</span>
         <DatePicker
           showPopperArrow={false}
-          selected={pickedDate}
+          selected={state.selectedDate}
           dateFormat={"dd.MM.yyyy"}
           onChange={(date: Date) => handleDatePicked(date)}
         />
         <span>select currency code</span>
-
+        {state.selectedCurrencyCode}
         <SelectComponent
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-            setSelectedRateCode(e.target.value);
+            dispatch(setCurrencyCode(e.target.value));
           }}
-          options={ratesData.map((data: CurrencyData) => data.code)}
+          options={state.tableData.map((data: CurrencyData) => data.code)}
           defaultOption={ALL_RATES_OPTION}
         />
 
-        //todo remove inline styles
+        {/*todo remove inline styles*/}
         <div
           className="ag-theme-balham"
           style={{
@@ -82,7 +75,7 @@ const App: React.FC<AppProps> = ({ tableData }) => {
             width: "600px",
           }}
         >
-          <AgGridReact columnDefs={columnDefs} rowData={getGridData()} />
+          <AgGridReact columnDefs={columnDefs} rowData={state.gridData} />
         </div>
       </header>
     </div>
