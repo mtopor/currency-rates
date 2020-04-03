@@ -1,7 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getTableData = async (date: string) => {
-  return await axios.get(`http://localhost:8000/data?date=${date}`);
+  try {
+    const response = await axios.get(`http://localhost:8000/data?date=${date}`);
+    console.log('ax response: ', response);
+    return response.data;
+  } catch (error) {
+    console.log('error.response.data: ', error.response.data);
+    return error.response.data;
+  }
 };
 
 export const getCurrencyData = async (date: string) => {

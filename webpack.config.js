@@ -24,7 +24,6 @@ module.exports = {
                     }
                 ]
             },
-            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             {
                 enforce: "pre",
                 test: /\.js$/,

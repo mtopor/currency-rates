@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOMServer from "react-dom/server";
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 
-import express, { Request, Response } from "express";
-import { getCurrencyData, getTableData } from "./requests/currency-requests";
-import { AppProps } from "./types/rates";
+import express, { Request, Response } from 'express';
+import { getCurrencyData, getTableData } from './requests/currency-requests';
+import { AppProps } from './types/rates';
 
-import { convertDate, parseCurrencyData } from "./helpers/rates";
-import App from "./components/app";
+import { convertDate, parseCurrencyData } from './helpers/rates';
+import App from './components/app';
 
 const PORT = 8000;
 
@@ -29,9 +29,9 @@ ${content}
 `;
 };
 
-app.use("/dist", express.static("./dist/"));
+app.use('/dist', express.static('./dist/'));
 
-app.use("^/$", async (request: Request, response: Response) => {
+app.use('^/$', async (request: Request, response: Response) => {
   const initialState: AppProps = {
     tableData: [],
   };
@@ -47,12 +47,12 @@ app.use("^/$", async (request: Request, response: Response) => {
   });
 });
 
-app.get("/data", async (request: Request, response: Response) => {
+app.get('/data', async (request: Request, response: Response) => {
   //todo error state
-  console.log("request param date: ", request.query.date);
+  console.log('request param date: ', request.query.date);
   const date = request.query.date;
-  if (date == null || !date.length) {
-    throw "Invalid request. date param is missing";
+  if (date == null || date.includes('5')) {
+    return response.status(400).send('Date param is missing');
   }
 
   getCurrencyData(date).then((resp) => {
@@ -61,5 +61,5 @@ app.get("/data", async (request: Request, response: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log("App is running on port" + PORT);
+  console.log('App is running on port' + PORT);
 });
