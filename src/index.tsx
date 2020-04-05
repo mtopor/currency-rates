@@ -1,3 +1,6 @@
+// to avoid loading of .css files by node.js
+require.extensions['.css'] = (file) => {}
+
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
@@ -17,12 +20,14 @@ const wrapWithHtmlTemplate = (content: string, state: Object): string => {
   return `
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="../dist/styles.css">
 </head>
 <body>
 <div id="root">
 ${content}
 </div>
 <script>window.__STATE__ = ${stringifiedState}</script>
+<script src="../dist/styles.js"></script>
 <script src="../dist/main.js"></script>
 </body>
 </html>
@@ -36,8 +41,8 @@ app.use('^/$', async (request: Request, response: Response) => {
     tableData: [],
   };
 
-  getTableData(convertDate(new Date())).then((resp) => {
-    initialState.tableData = resp.data;
+  getTableData(convertDate(new Date())).then((data) => {
+    initialState.tableData = data;
     return response.send(
       wrapWithHtmlTemplate(
         ReactDOMServer.renderToString(<App {...initialState} />),
