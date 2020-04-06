@@ -1,5 +1,5 @@
 // to avoid loading of .css files by node.js
-require.extensions['.css'] = (file) => {}
+require.extensions['.css'] = (file) => {};
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -56,7 +56,7 @@ app.get('/data', async (request: Request, response: Response) => {
   //todo error state
   console.log('request param date: ', request.query.date);
   const date = request.query.date;
-  if (date == null || date.includes('5')) {
+  if (date == null || date.includes('3')) {
     return response.status(400).send('Date param is missing');
   }
 

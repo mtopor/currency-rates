@@ -6,8 +6,9 @@ export const getTableData = async (date: string) => {
     console.log('ax response: ', response);
     return response.data;
   } catch (error) {
+    throw error;
     console.log('error.response.data: ', error.response.data);
-    return error.response.data;
+    // return error.response.data;
   }
 };
 

@@ -2,7 +2,6 @@ import React, { ChangeEvent, useReducer } from 'react';
 
 import DatePicker from 'react-datepicker';
 import { AgGridReact } from 'ag-grid-react';
-import { Simulate } from 'react-dom/test-utils';
 import SpinnerComponent from '../components/spinner/spinner-component';
 import {
   setCurrencyCode,
@@ -49,6 +48,9 @@ const App: React.FC<AppProps> = ({ tableData }) => {
   });
 
   const handleDatePicked = (date: Date) => {
+    if (date == null) {
+      date = new Date();
+    }
     dispatch(setIsLoading(true));
     getTableData(convertDate(date))
       .then((data) => {
@@ -56,7 +58,8 @@ const App: React.FC<AppProps> = ({ tableData }) => {
         dispatch(setIsLoading(false));
       })
       .catch((error) => {
-        console.log('be error: ', error);
+        console.log(typeof error);
+        console.log('e: ', error.data);
         dispatch(setError(error));
       });
   };
@@ -92,7 +95,7 @@ const App: React.FC<AppProps> = ({ tableData }) => {
           {/*todo add shouldDisplayRates = isloading && error.length*/}
           {state.isLoading ? (
             <SpinnerComponent />
-          ) : (
+          ) : ( !state.error.length &&
             <AgGridReact columnDefs={columnDefs} rowData={state.gridData} />
           )}
         </div>
