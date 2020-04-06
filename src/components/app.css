@@ -12,6 +12,8 @@
 }
 
 .rates-table {
-  height: 500px;
+  height: 450px;
   width: 600px;
+  overflow-y: scroll;
+  padding-top: 20px;
 }

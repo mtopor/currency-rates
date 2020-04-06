@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useReducer } from 'react';
 
 import DatePicker from 'react-datepicker';
-import { AgGridReact } from 'ag-grid-react';
+import BootstrapTable from 'react-bootstrap-table-next';
 import SpinnerComponent from '../components/spinner/spinner-component';
 import {
   setCurrencyCode,
@@ -18,26 +18,25 @@ import reducer from '../reducers/rates-reducer';
 import { AppProps, CurrencyData } from '../types/rates';
 import { getTableData } from '../requests/currency-requests';
 
-import 'react-datepicker/dist/react-datepicker.css';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import '../components/app.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const columnDefs = [
   {
-    headerName: 'Country',
-    field: 'country',
+    text: 'Country',
+    dataField: 'country',
   },
   {
-    headerName: 'Code',
-    field: 'code',
+    text: 'Code',
+    dataField: 'code',
   },
   {
-    headerName: 'Rate',
-    field: 'rate',
+    text: 'Rate',
+    dataField: 'rate',
   },
 ];
+
 //todo styles
 const App: React.FC<AppProps> = ({ tableData }) => {
   const [state, dispatch] = useReducer(reducer, {
@@ -89,13 +88,22 @@ const App: React.FC<AppProps> = ({ tableData }) => {
             defaultOption={ALL_RATES_OPTION}
           />
         </div>
-        <div className="ag-theme-balham rates-table">
+        <div className="rates-table">
           {!!state.error.length && <span>{state.error}</span>}
           {state.isLoading ? (
             <SpinnerComponent />
           ) : (
             !state.error.length && (
-              <AgGridReact columnDefs={columnDefs} rowData={state.gridData} />
+              <BootstrapTable
+                bodyClasses="rates-table"
+                keyField={'code'}
+                data={tableData}
+                columns={columnDefs}
+                striped
+                hover
+                condensed
+                bootstrap4
+              />
             )
           )}
         </div>
