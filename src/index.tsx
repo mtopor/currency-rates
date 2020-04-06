@@ -40,29 +40,36 @@ app.use('^/$', async (request: Request, response: Response) => {
   const initialState: AppProps = {
     tableData: [],
   };
+  let data: string;
 
-  getTableData(convertDate(new Date())).then((data) => {
-    initialState.tableData = data;
+  try {
+    data = await getCurrencyData(convertDate(new Date()));
+    initialState.tableData = parseCurrencyData(data);
     return response.send(
       wrapWithHtmlTemplate(
         ReactDOMServer.renderToString(<App {...initialState} />),
         initialState
       )
     );
-  });
+  } catch (e) {
+    return response.status(500).send('Cannot get currency data');
+  }
 });
 
 app.get('/data', async (request: Request, response: Response) => {
-  //todo error state
-  console.log('request param date: ', request.query.date);
+  //todo remove includes 3
+  let data: string;
   const date = request.query.date;
   if (date == null || date.includes('3')) {
     return response.status(400).send('Date param is missing');
   }
 
-  getCurrencyData(date).then((resp) => {
-    return response.send(parseCurrencyData(resp.data));
-  });
+  try {
+    data = await getCurrencyData(convertDate(new Date()));
+    return response.send(parseCurrencyData(data));
+  } catch (e) {
+    return response.status(500).send('Cannot get currency data');
+  }
 });
 
 app.listen(PORT, () => {

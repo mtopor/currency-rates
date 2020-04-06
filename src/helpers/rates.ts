@@ -1,11 +1,11 @@
 import { CurrencyData } from '../types/rates';
 
-/*
-todo check date in header
-todo check lines.length
-*/
+//todo test parser
 export const parseCurrencyData = (rawData: string): CurrencyData[] => {
-  console.log('Rates from date: ', rawData.split('\n')[0]);
+  if (rawData.split('\n').length < 3) {
+    throw new Error('Parsing error. Invalid data');
+  }
+
   const lines: string[] = rawData.split('\n').slice(2);
   const data: CurrencyData[] = [];
   lines.forEach((line) => {
@@ -23,8 +23,20 @@ export const parseCurrencyData = (rawData: string): CurrencyData[] => {
   return data;
 };
 
+//todo test
 export const convertDate = (date: Date): string => {
-  return `${date.getDate() < 10 ? '0' : ''}${date.getDate()}.${
-    date.getMonth() + 1 < 10 ? '0' : ''
-  }${date.getMonth() + 1}.${date.getFullYear()}`;
+  var formatter = new Intl.DateTimeFormat('en-us', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+
+  const [
+    { value: month },
+    ,
+    { value: day },
+    ,
+    { value: year },
+  ] = formatter.formatToParts(date);
+  return `${day}.${month}.${year}`;
 };

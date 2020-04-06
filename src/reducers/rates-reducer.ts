@@ -3,6 +3,7 @@ import {
   setErrorReduce,
   setIsLoadingReduce,
   setSelectedDateReduce,
+  setTableDataReduce,
 } from '../operations/rates-operations';
 import { ALL_RATES_OPTION } from '../constants/rates-constants';
 import {
@@ -11,6 +12,7 @@ import {
   SET_SELECTED_DATE,
   SET_IS_LOADING,
   SET_ERROR,
+  SET_TABLE_DATA,
 } from '../types/rates';
 
 export interface CurrencyRatesState {
@@ -22,7 +24,8 @@ export interface CurrencyRatesState {
   error: string;
 }
 
-const getGridData = (
+//todo test mobe
+const filterTableData = (
   tableData: CurrencyData[],
   selectedCurrencyCode?: string
 ): CurrencyData[] => {
@@ -41,14 +44,15 @@ export default function (state: CurrencyRatesState, action: any) {
       return setCurrencyCodeReduce(
         state,
         action.payload,
-        getGridData(state.tableData, action.payload)
+        filterTableData(state.tableData, action.payload)
       );
     case SET_SELECTED_DATE:
-      return setSelectedDateReduce(
+      return setSelectedDateReduce(state, action.payload.date);
+    case SET_TABLE_DATA:
+      return setTableDataReduce(
         state,
-        action.payload.date,
         action.payload.tableData,
-        getGridData(action.payload.tableData, state.selectedCurrencyCode)
+        filterTableData(action.payload.tableData, state.selectedCurrencyCode)
       );
     case SET_IS_LOADING:
       return setIsLoadingReduce(state, action.payload);

@@ -19,6 +19,7 @@
     "ag-grid-community": "^23.0.2",
     "ag-grid-react": "^23.0.2",
     "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "react": "^16.13.1",
     "react-datepicker": "^2.14.1",

@@ -15,13 +15,21 @@ export const setCurrencyCodeReduce = (
 
 export const setSelectedDateReduce = (
   state: CurrencyRatesState,
-  date: Date,
+  date: Date
+): CurrencyRatesState => {
+  return {
+    ...state,
+    selectedDate: date,
+  };
+};
+
+export const setTableDataReduce = (
+  state: CurrencyRatesState,
   tableData: CurrencyData[],
   gridData: CurrencyData[]
 ): CurrencyRatesState => {
   return {
     ...state,
-    selectedDate: date,
     tableData: tableData,
     gridData: gridData,
   };
