@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.App-header {
+.App-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -12,8 +12,9 @@
 }
 
 .rates-table {
-  height: 450px;
-  width: 600px;
+  height: 50%;
   overflow-y: scroll;
   padding-top: 20px;
+  margin: auto;
+  width: 40%;
 }
