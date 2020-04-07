@@ -28,3 +28,5 @@ Applies prettier rules and edits the app code.
 * Add redux to server and store the url with date query param in server's state in order to share or reuse it.  
 * Create a static component for error banner  
 * Revisit app.tsx test
+* Add `ts-node-dev` to project in order to rebuild the project after edit.  
+* Add axios instance with config.
