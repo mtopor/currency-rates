@@ -1,5 +1,5 @@
 # currency-rates app
-The following application is an attempt to implement the server side rendering from scratch utilizing React, ReactServer, TypeScript, Express.  
+The following application is an attempt to implement the server side rendering for faster page loads from scratch utilizing React, TypeScript, Express.  
 
 ## Available Scripts
 
