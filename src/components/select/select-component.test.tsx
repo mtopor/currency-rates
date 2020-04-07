@@ -9,14 +9,14 @@ function setup() {
   const props = {
     defaultOption: 'ALL',
     options: ['first', 'second', 'third'],
-    onChange: jest.fn()
+    onChange: jest.fn(),
   };
 
   const enzymeWrapper = shallow(<SelectComponent {...props} />);
 
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 }
 
@@ -24,7 +24,9 @@ describe('Select Component', () => {
   it('should render self', () => {
     const { enzymeWrapper } = setup();
 
-    expect(enzymeWrapper.find('select').hasClass('form-control form-control-lg')).toBe(true);
+    expect(
+      enzymeWrapper.find('select').hasClass('form-control form-control-lg')
+    ).toBe(true);
     expect(enzymeWrapper.find('option').getElements().length).toEqual(4);
     expect(enzymeWrapper.find('option').first().text()).toBe('ALL');
     expect(enzymeWrapper.find('option').last().text()).toBe('third');

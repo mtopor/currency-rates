@@ -6,11 +6,10 @@ import SpinnerComponent from './spinner-component';
 Enzyme.configure({ adapter: new Adapter() });
 
 function setup() {
-
   const enzymeWrapper = shallow(<SpinnerComponent />);
 
   return {
-    enzymeWrapper
+    enzymeWrapper,
   };
 }
 
@@ -19,6 +18,8 @@ describe('Spinner component smoke test', () => {
     const { enzymeWrapper } = setup();
 
     expect(enzymeWrapper.find('div').first().hasClass('spinner')).toBe(true);
-    expect(enzymeWrapper.find('div').last().hasClass('lds-dual-ring')).toBe(true);
+    expect(enzymeWrapper.find('div').last().hasClass('lds-dual-ring')).toBe(
+      true
+    );
   });
 });
