@@ -7,14 +7,14 @@ export const setCurrencyCode = (code: string): types.RatesAction => ({
 
 export const setSelectedDate = (date: Date): types.RatesAction => ({
   type: types.SET_SELECTED_DATE,
-  payload: { date },
+  payload: date,
 });
 
 export const setTableData = (
   tableData: types.CurrencyData[]
 ): types.RatesAction => ({
   type: types.SET_TABLE_DATA,
-  payload: { tableData },
+  payload: tableData,
 });
 
 export const setIsLoading = (isLoading: boolean): types.RatesAction => ({

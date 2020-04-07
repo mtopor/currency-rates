@@ -12,8 +12,8 @@ export interface CurrencyRatesState {
   isLoading: boolean;
   selectedCurrencyCode: string;
   selectedDate: Date;
+  ratesData: CurrencyData[];
   tableData: CurrencyData[];
-  gridData: CurrencyData[];
   error: string;
 }
 

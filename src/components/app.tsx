@@ -39,8 +39,8 @@ const columnDefs = [
 
 const App: React.FC<AppProps> = ({ tableData }) => {
   const [state, dispatch] = useReducer(reducer, {
+    ratesData: tableData,
     tableData,
-    gridData: tableData,
     selectedCurrencyCode: ALL_RATES_OPTION,
     isLoading: false,
     selectedDate: new Date(),
@@ -54,6 +54,7 @@ const App: React.FC<AppProps> = ({ tableData }) => {
       const data = await getTableData(convertDate(requestDate));
       dispatch(setTableData(data));
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.debug(error);
       dispatch(setError('Could not retrieve rates'));
     } finally {
@@ -101,7 +102,7 @@ const App: React.FC<AppProps> = ({ tableData }) => {
                 bodyClasses="rates-table"
                 headerClasses="thead-dark"
                 keyField="code"
-                data={state.gridData}
+                data={state.tableData}
                 columns={columnDefs}
                 striped
                 hover

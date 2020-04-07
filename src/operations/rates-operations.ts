@@ -8,7 +8,7 @@ export const setCurrencyCodeReduce = (
   return {
     ...state,
     selectedCurrencyCode: code,
-    gridData,
+    tableData: gridData,
   };
 };
 
@@ -29,8 +29,8 @@ export const setTableDataReduce = (
 ): CurrencyRatesState => {
   return {
     ...state,
-    tableData,
-    gridData,
+    ratesData: tableData,
+    tableData: gridData,
     error: '',
   };
 };
@@ -50,7 +50,7 @@ export const setErrorReduce = (state: CurrencyRatesState, error: string) => {
     ...state,
     isLoading: false,
     error,
+    ratesData: [],
     tableData: [],
-    gridData: [],
   };
 };

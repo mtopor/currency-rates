@@ -1,4 +1,5 @@
-// to avoid loading of .css files by node.js
+/* eslint import/first: 0 */
+// to avoid loading of .css files by node
 require.extensions['.css'] = (file) => {};
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -56,10 +57,9 @@ app.use('^/$', async (request: Request, response: Response) => {
 });
 
 app.get('/data', async (request: Request, response: Response) => {
-  // todo remove includes 3
   let data: string;
   const { date } = request.query;
-  if (date == null || date.includes('3')) {
+  if (date == null) {
     return response.status(400).send('Date param is missing');
   }
 

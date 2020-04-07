@@ -1,3 +1,9 @@
+.spinner {
+  display: flex;
+  justify-content: center;
+  margin: .5rem;
+}
+
 .lds-dual-ring {
   display: inline-block;
   width: 80px;

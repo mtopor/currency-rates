@@ -13,7 +13,8 @@ import {
   SET_IS_LOADING,
   SET_ERROR,
   SET_TABLE_DATA,
-  RatesAction, CurrencyRatesState,
+  RatesAction,
+  CurrencyRatesState,
 } from '../types/rates';
 
 // todo test mobe
@@ -35,15 +36,15 @@ export default function (state: CurrencyRatesState, action: RatesAction) {
       return setCurrencyCodeReduce(
         state,
         action.payload,
-        filterTableData(state.tableData, action.payload)
+        filterTableData(state.ratesData, action.payload)
       );
     case SET_SELECTED_DATE:
-      return setSelectedDateReduce(state, action.payload.date);
+      return setSelectedDateReduce(state, action.payload);
     case SET_TABLE_DATA:
       return setTableDataReduce(
         state,
-        action.payload.tableData,
-        filterTableData(action.payload.tableData, state.selectedCurrencyCode)
+        action.payload,
+        filterTableData(action.payload, state.selectedCurrencyCode)
       );
     case SET_IS_LOADING:
       return setIsLoadingReduce(state, action.payload);
