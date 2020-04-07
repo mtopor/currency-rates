@@ -1,6 +1,6 @@
 import { CurrencyData } from '../types/rates';
 
-//todo test parser
+// todo test parser
 export const parseCurrencyData = (rawData: string): CurrencyData[] => {
   if (rawData.split('\n').length < 3) {
     throw new Error('Parsing error. Invalid data');
@@ -10,7 +10,7 @@ export const parseCurrencyData = (rawData: string): CurrencyData[] => {
   const data: CurrencyData[] = [];
   lines.forEach((line) => {
     const parsedLine = line.split('|');
-    if (parsedLine.length != 5) {
+    if (parsedLine.length !== 5) {
       return;
     }
     data.push({
@@ -23,9 +23,9 @@ export const parseCurrencyData = (rawData: string): CurrencyData[] => {
   return data;
 };
 
-//todo test
+// todo test
 export const convertDate = (date: Date): string => {
-  var formatter = new Intl.DateTimeFormat('en-us', {
+  const formatter = new Intl.DateTimeFormat('en-us', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',

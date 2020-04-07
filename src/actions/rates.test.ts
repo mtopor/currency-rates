@@ -1,4 +1,4 @@
-import { setIsLoading } from '../actions/rates';
+import { setIsLoading } from './rates';
 import { SET_IS_LOADING } from '../types/rates';
 
 describe('actions', () => {

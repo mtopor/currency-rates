@@ -1,5 +1,4 @@
-import { CurrencyData } from '../types/rates';
-import { CurrencyRatesState } from '../reducers/rates-reducer';
+import { CurrencyData, CurrencyRatesState } from '../types/rates';
 
 export const setCurrencyCodeReduce = (
   state: CurrencyRatesState,
@@ -9,7 +8,7 @@ export const setCurrencyCodeReduce = (
   return {
     ...state,
     selectedCurrencyCode: code,
-    gridData: gridData,
+    gridData,
   };
 };
 
@@ -30,9 +29,9 @@ export const setTableDataReduce = (
 ): CurrencyRatesState => {
   return {
     ...state,
-    tableData: tableData,
-    gridData: gridData,
-    error: ''
+    tableData,
+    gridData,
+    error: '',
   };
 };
 
@@ -42,7 +41,7 @@ export const setIsLoadingReduce = (
 ) => {
   return {
     ...state,
-    isLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -50,7 +49,7 @@ export const setErrorReduce = (state: CurrencyRatesState, error: string) => {
   return {
     ...state,
     isLoading: false,
-    error: error,
+    error,
     tableData: [],
     gridData: [],
   };

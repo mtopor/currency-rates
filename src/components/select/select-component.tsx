@@ -20,6 +20,7 @@ const SelectComponent: React.FC<Props> = ({
           </option>
         )}
         {options.map((option: string, index: number) => (
+          // eslint-disable-next-line react/no-array-index-key
           <option value={option} key={index + 1}>
             {option}
           </option>

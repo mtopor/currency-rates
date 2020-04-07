@@ -2,7 +2,7 @@ import React, { ChangeEvent, useReducer } from 'react';
 
 import DatePicker from 'react-datepicker';
 import BootstrapTable from 'react-bootstrap-table-next';
-import SpinnerComponent from '../components/spinner/spinner-component';
+import SpinnerComponent from './spinner/spinner-component';
 import {
   setCurrencyCode,
   setError,
@@ -10,7 +10,7 @@ import {
   setSelectedDate,
   setTableData,
 } from '../actions/rates';
-import SelectComponent from '../components/select/select-component';
+import SelectComponent from './select/select-component';
 import { convertDate } from '../helpers/rates';
 import { ALL_RATES_OPTION } from '../constants/rates-constants';
 import reducer from '../reducers/rates-reducer';
@@ -18,7 +18,7 @@ import reducer from '../reducers/rates-reducer';
 import { AppProps, CurrencyData } from '../types/rates';
 import { getTableData } from '../requests/currency-requests';
 
-import '../components/app.css';
+import './app.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -39,7 +39,7 @@ const columnDefs = [
 
 const App: React.FC<AppProps> = ({ tableData }) => {
   const [state, dispatch] = useReducer(reducer, {
-    tableData: tableData,
+    tableData,
     gridData: tableData,
     selectedCurrencyCode: ALL_RATES_OPTION,
     isLoading: false,
@@ -48,19 +48,17 @@ const App: React.FC<AppProps> = ({ tableData }) => {
   });
 
   const handleDatePicked = async (date: Date) => {
-    if (!date) {
-      date = new Date();
-    }
+    const requestDate = !date ? new Date() : date;
     dispatch(setIsLoading(true));
     try {
-      const data = await getTableData(convertDate(date));
+      const data = await getTableData(convertDate(requestDate));
       dispatch(setTableData(data));
     } catch (error) {
       console.debug(error);
       dispatch(setError('Could not retrieve rates'));
     } finally {
       dispatch(setIsLoading(false));
-      dispatch(setSelectedDate(date));
+      dispatch(setSelectedDate(requestDate));
     }
   };
   return (
@@ -71,18 +69,18 @@ const App: React.FC<AppProps> = ({ tableData }) => {
             <h1 className="display-4">Uber Rates</h1>
             <hr />
 
-            <p className="lead">{`Select date `}</p>
+            <p className="lead">{'Select date '}</p>
             <DatePicker
               className="form-control form-control-lg"
               showPopperArrow={false}
               selected={state.selectedDate}
-              dateFormat={'dd.MM.yyyy'}
+              dateFormat="dd.MM.yyyy"
               onChange={(date: Date) => handleDatePicked(date)}
             />
             <br />
             <br />
 
-            <p className="lead">{`Select currency `}</p>
+            <p className="lead">{'Select currency '}</p>
             <SelectComponent
               onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                 dispatch(setCurrencyCode(e.target.value));
@@ -90,30 +88,30 @@ const App: React.FC<AppProps> = ({ tableData }) => {
               options={state.tableData?.map((data: CurrencyData) => data.code)}
               defaultOption={ALL_RATES_OPTION}
             />
-              </div>
-          </div>
-
-          <div className="rates-table align-middle">
-            {!!state.error.length && <p className="text-danger">{state.error}</p>}
-            {state.isLoading ? (
-              <SpinnerComponent />
-            ) : (
-              !state.error.length && (
-                <BootstrapTable
-                  bodyClasses="rates-table"
-                  headerClasses="thead-dark"
-                  keyField={'code'}
-                  data={state.gridData}
-                  columns={columnDefs}
-                  striped
-                  hover
-                  condensed
-                  bootstrap4
-                />
-              )
-            )}
           </div>
         </div>
+
+        <div className="rates-table align-middle">
+          {!!state.error.length && <p className="text-danger">{state.error}</p>}
+          {state.isLoading ? (
+            <SpinnerComponent />
+          ) : (
+            !state.error.length && (
+              <BootstrapTable
+                bodyClasses="rates-table"
+                headerClasses="thead-dark"
+                keyField="code"
+                data={state.gridData}
+                columns={columnDefs}
+                striped
+                hover
+                condensed
+                bootstrap4
+              />
+            )
+          )}
+        </div>
+      </div>
     </div>
   );
 };

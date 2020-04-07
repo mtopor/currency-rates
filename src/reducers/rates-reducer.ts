@@ -13,32 +13,23 @@ import {
   SET_IS_LOADING,
   SET_ERROR,
   SET_TABLE_DATA,
+  RatesAction, CurrencyRatesState,
 } from '../types/rates';
 
-export interface CurrencyRatesState {
-  isLoading: boolean;
-  selectedCurrencyCode: string;
-  selectedDate: Date;
-  tableData: CurrencyData[];
-  gridData: CurrencyData[];
-  error: string;
-}
-
-//todo test mobe
+// todo test mobe
 const filterTableData = (
   tableData: CurrencyData[],
   selectedCurrencyCode?: string
 ): CurrencyData[] => {
   if (selectedCurrencyCode === ALL_RATES_OPTION) {
     return tableData;
-  } else {
-    return tableData?.filter(
-      (row: CurrencyData) => row.code === selectedCurrencyCode
-    );
   }
+  return tableData?.filter(
+    (row: CurrencyData) => row.code === selectedCurrencyCode
+  );
 };
 
-export default function (state: CurrencyRatesState, action: any) {
+export default function (state: CurrencyRatesState, action: RatesAction) {
   switch (action.type) {
     case SET_CURRENCY_CODE:
       return setCurrencyCodeReduce(

@@ -1,11 +1,10 @@
 // to avoid loading of .css files by node.js
 require.extensions['.css'] = (file) => {};
-
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import express, { Request, Response } from 'express';
-import { getCurrencyData, getTableData } from './requests/currency-requests';
+import { getCurrencyData } from './requests/currency-requests';
 import { AppProps } from './types/rates';
 
 import { convertDate, parseCurrencyData } from './helpers/rates';
@@ -57,9 +56,9 @@ app.use('^/$', async (request: Request, response: Response) => {
 });
 
 app.get('/data', async (request: Request, response: Response) => {
-  //todo remove includes 3
+  // todo remove includes 3
   let data: string;
-  const date = request.query.date;
+  const { date } = request.query;
   if (date == null || date.includes('3')) {
     return response.status(400).send('Date param is missing');
   }
@@ -73,5 +72,5 @@ app.get('/data', async (request: Request, response: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log('App is running on port' + PORT);
+  console.log(`App is running on port${  PORT}`);
 });

@@ -1,5 +1,6 @@
+import { CurrencyRatesState } from '../types/rates';
 import { setIsLoading } from '../actions/rates';
-import reducer, { CurrencyRatesState } from './rates-reducer';
+import reducer from './rates-reducer';
 
 const initialState: CurrencyRatesState = {
   error: '',
@@ -15,7 +16,8 @@ const initialState: CurrencyRatesState = {
 
 describe('todos reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(initialState, {})).toBeDefined;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    expect(reducer(initialState, { type: '', payload: '' })).toBeDefined;
   });
 
   it('action test', () => {
