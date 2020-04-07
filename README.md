@@ -5,6 +5,9 @@ The following application is an attempt to implement the server side rendering f
 
 In the project directory, you can run:
 
+### `npm install`
+Installs all the required dependencies.
+
 ### `npm run build`
 Builds the app for the production to the dist folder.
 
