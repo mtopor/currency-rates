@@ -86,7 +86,7 @@ const App: React.FC<AppProps> = ({ tableData }) => {
               onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                 dispatch(setCurrencyCode(e.target.value));
               }}
-              options={state.tableData?.map((data: CurrencyData) => data.code)}
+              options={state.ratesData?.map((data: CurrencyData) => data.code)}
               defaultOption={ALL_RATES_OPTION}
             />
           </div>

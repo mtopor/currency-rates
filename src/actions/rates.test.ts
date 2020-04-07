@@ -14,7 +14,7 @@ import {
 } from '../types/rates';
 
 describe('actions', () => {
-  it('should create an action set Currency code', () => {
+  it('should create an action set currency code', () => {
     const expectedAction = {
       type: SET_CURRENCY_CODE,
       payload: 'CZK',

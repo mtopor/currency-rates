@@ -1,6 +1,6 @@
 import { convertDate, parseCurrencyData } from './rates';
 
-describe('helpers', () => {
+describe('helpers test', () => {
   it('should parse raw string data and return an array of CurrencyData objects', () => {
     const rawStringData = `06 Apr 2020 #68
 Country|Currency|Amount|Code|Rate
@@ -13,7 +13,7 @@ Brazil|real|1|BRL|4.838`;
     expect(parseCurrencyData(rawStringData)).toEqual(tableData);
   });
 
-  it('should parse raw string data and return an array of CurrencyData objects', () => {
+  it('should parse invalid raw string data and throw the parsing error', () => {
     const rawStringData = `06 Apr 2020 #68
 Country|Currency|Amount|Code|Rate`;
     expect(() => parseCurrencyData(rawStringData)).toThrowError(

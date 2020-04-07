@@ -72,5 +72,8 @@ app.get('/data', async (request: Request, response: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`App is running on port${  PORT}`);
+  // eslint-disable-next-line no-console
+  console.debug(`App is running on port${  PORT}`);
 });
+
+export default app;

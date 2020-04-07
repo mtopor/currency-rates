@@ -6,16 +6,16 @@ import App from './app';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-function setup() {
-  const props: CurrencyRatesState = {
-    error: '',
-    tableData: [],
-    isLoading: false,
-    selectedCurrencyCode: '',
-    selectedDate: new Date(),
-    ratesData: [],
-  };
+const initialState: CurrencyRatesState = {
+  error: '',
+  tableData: [],
+  isLoading: false,
+  selectedCurrencyCode: '',
+  selectedDate: new Date(),
+  ratesData: [],
+};
 
+function setup(props: CurrencyRatesState) {
   const enzymeWrapper = shallow(<App {...props} />);
 
   return {
@@ -26,7 +26,7 @@ function setup() {
 
 describe('App Component', () => {
   it('should render self', () => {
-    const { enzymeWrapper } = setup();
+    const { enzymeWrapper } = setup(initialState);
 
     expect(enzymeWrapper.find('div').first().hasClass('App')).toBe(true);
     expect(enzymeWrapper.find('DatePicker')).toBeDefined();

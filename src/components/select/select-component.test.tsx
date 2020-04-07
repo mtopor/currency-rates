@@ -20,23 +20,21 @@ function setup() {
   };
 }
 
-describe('components', () => {
-  describe('Select Component', () => {
-    it('should render self', () => {
-      const { enzymeWrapper } = setup();
+describe('Select Component', () => {
+  it('should render self', () => {
+    const { enzymeWrapper } = setup();
 
-      expect(enzymeWrapper.find('select').hasClass('form-control form-control-lg')).toBe(true);
-      expect(enzymeWrapper.find('option').getElements().length).toEqual(4);
-      expect(enzymeWrapper.find('option').first().text()).toBe('ALL');
-      expect(enzymeWrapper.find('option').last().text()).toBe('third');
-    });
+    expect(enzymeWrapper.find('select').hasClass('form-control form-control-lg')).toBe(true);
+    expect(enzymeWrapper.find('option').getElements().length).toEqual(4);
+    expect(enzymeWrapper.find('option').first().text()).toBe('ALL');
+    expect(enzymeWrapper.find('option').last().text()).toBe('third');
+  });
 
-    it('should call onChange ', () => {
-      const { enzymeWrapper, props } = setup();
-      const select = enzymeWrapper.find('select');
-      const mockEvent = { target: { value: 'third' } };
-      select.simulate('change', mockEvent);
-      expect(props.onChange).toHaveBeenCalledWith(mockEvent);
-    });
+  it('should call onChange ', () => {
+    const { enzymeWrapper, props } = setup();
+    const select = enzymeWrapper.find('select');
+    const mockEvent = { target: { value: 'third' } };
+    select.simulate('change', mockEvent);
+    expect(props.onChange).toHaveBeenCalledWith(mockEvent);
   });
 });

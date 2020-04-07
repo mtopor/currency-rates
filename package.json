@@ -8,10 +8,8 @@
     "build": "npx webpack",
     "build:watch": "npx webpack --watch",
     "test": "jest",
-    "test:watch": "npm test -- --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
-    "format": "prettier --write ./src/**/*.{ts,tsx,css}",
-    "precommit": "npm run format && npm run lint && npm run build"
+    "format": "prettier --write ./src/**/*.{ts,tsx,css}"
   },
   "jest": {
     "verbose": true,
@@ -21,7 +19,11 @@
     },
     "moduleNameMapper": {
       "\\.(css)$": "identity-obj-proxy"
-    }
+    },
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -47,6 +49,7 @@
     "@types/react-bootstrap-table-next": "^4.0.0",
     "@types/react-datepicker": "^2.11.0",
     "@types/react-dom": "^16.9.5",
+    "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "2.27.0",
     "@typescript-eslint/parser": "2.27.0",
     "babel-eslint": "10.1.0",
@@ -75,6 +78,7 @@
     "prettier-eslint": "9.0.1",
     "prettier-eslint-cli": "5.0.0",
     "source-map-loader": "^0.2.4",
+    "supertest": "^4.0.2",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
