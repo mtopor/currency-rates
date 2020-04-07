@@ -1,65 +1,79 @@
-import React from "react";
+/* eslint import/first: 0 */
+// to avoid loading of .css files by node
+require.extensions['.css'] = (file) => {};
+import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
-import express from 'express';
-import fs from "fs";
-import path from "path";
-import App from "./components/hello";
+import express, { Request, Response } from 'express';
+import { getCurrencyData } from './requests/currency-requests';
+import { AppProps } from './types/rates';
+
+import { convertDate, parseCurrencyData } from './helpers/rates';
+import App from './components/app';
 
 const PORT = 8000;
 
 const app = express();
 
-
 const wrapWithHtmlTemplate = (content: string, state: Object): string => {
-    return `
+  const stringifiedState = JSON.stringify(state);
+  return `
 <html>
 <head>
-<!--<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>-->
-<!--<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>-->
+<link rel="stylesheet" type="text/css" href="../dist/styles.css">
 </head>
 <body>
 <div id="root">
 ${content}
 </div>
+<script>window.__STATE__ = ${stringifiedState}</script>
+<script src="../dist/styles.js"></script>
 <script src="../dist/main.js"></script>
 </body>
 </html>
 `;
 };
 
-app.use("/dist", express.static('./dist/'));
+app.use('/dist', express.static('./dist/'));
 
-app.use('^/$', (request: any, response: any) => {
-    const initialState = {
-        text: 'World (IS)'
-    }
-    return response.send(wrapWithHtmlTemplate(ReactDOMServer.renderToString(<App {...initialState} />), initialState));
-    // fs.readFile(path.resolve('./build/index.html'), 'utf-8', (err, data) => {
-    //     if (err) {
-    //         console.log(err);
-    //         return response.status(500).send('Internal Server Error');
-    //     }
-    //     const persistedState = {
-    //         tableData: {}
-    //     };
-    //
-    //     return response.send(
-    //         data.replace(
-    //             `<script>window.__STATE__ = {${JSON.stringify(persistedState)}}</script><div id="root"></div>`,
-    //             `<div id="root">{ReactDOMServer.renderToString(<App />)}</div>`
-    //         )
-    //     );
-    // });
+app.use('^/$', async (request: Request, response: Response) => {
+  const initialState: AppProps = {
+    tableData: [],
+  };
+  let data: string;
+
+  try {
+    data = await getCurrencyData(convertDate(new Date()));
+    initialState.tableData = parseCurrencyData(data);
+    return response.send(
+      wrapWithHtmlTemplate(
+        ReactDOMServer.renderToString(<App {...initialState} />),
+        initialState
+      )
+    );
+  } catch (e) {
+    return response.status(500).send('Cannot get currency data');
+  }
 });
 
-// eslint-disable-next-line no-undef
-// app.use(express.static(path.resolve(__dirname, '..', 'build')));
+app.get('/data', async (request: Request, response: Response) => {
+  let data: string;
+  const { date } = request.query;
+  if (date == null) {
+    return response.status(400).send('Date param is missing');
+  }
+
+  try {
+    data = await getCurrencyData(date);
+    return response.send(parseCurrencyData(data));
+  } catch (e) {
+    return response.status(500).send('Cannot get currency data');
+  }
+});
 
 app.listen(PORT, () => {
-    console.log('App is running on port' + PORT);
-    // console.log(ReactDOMServer.renderToString(<App />));
+  // eslint-disable-next-line no-console
+  console.debug(`App is running on port${  PORT}`);
 });
 
-
-console.log('Hello world');
+export default app;
