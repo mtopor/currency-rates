@@ -1,19 +1,21 @@
 .App {
   text-align: center;
+  background-color: #e9ecef;
 }
 
-.App-header {
+.App-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  text-align: center;
 }
 
 .rates-table {
+  margin-top: 20px;
   height: 450px;
   width: 600px;
   overflow-y: scroll;
-  padding-top: 20px;
 }

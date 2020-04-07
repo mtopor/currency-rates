@@ -65,7 +65,7 @@ app.get('/data', async (request: Request, response: Response) => {
   }
 
   try {
-    data = await getCurrencyData(convertDate(new Date()));
+    data = await getCurrencyData(date);
     return response.send(parseCurrencyData(data));
   } catch (e) {
     return response.status(500).send('Cannot get currency data');

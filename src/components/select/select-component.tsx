@@ -13,7 +13,7 @@ const SelectComponent: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <select onChange={onChange}>
+      <select onChange={onChange} className="form-control form-control-lg">
         {defaultOption && (
           <option value={defaultOption} key={0}>
             {defaultOption}

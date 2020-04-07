@@ -32,6 +32,7 @@ export const setTableDataReduce = (
     ...state,
     tableData: tableData,
     gridData: gridData,
+    error: ''
   };
 };
 
