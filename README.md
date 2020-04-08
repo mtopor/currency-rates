@@ -1,5 +1,8 @@
 # currency-rates app
-The following application is an attempt to implement the server side rendering for faster page loads from scratch utilizing React, TypeScript, Express.  
+The following application is an attempt to implement React isomorphic application with the server side rendering from scratch utilizing TypeScript, Express and Node.   
+Server side rendering has a number of benefits, such as faster initial page loads, which enables search engines to crawl your pages and improves user experience in the case of slow internet connection.
+ 
+
 
 ## Available Scripts
 
